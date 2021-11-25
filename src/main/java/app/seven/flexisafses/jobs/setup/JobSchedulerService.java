@@ -1,13 +1,22 @@
 package app.seven.flexisafses.jobs.setup;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+@Slf4j
+@Component
 public class JobSchedulerService {
 
-    Scheduler scheduler;
+    private final Scheduler scheduler;
+
+    public JobSchedulerService(@Autowired Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     public void schedule(Class<? extends Job> jobClass, JobTimerInfo info){
         JobDetail jobDetail = JobBuilderUtils.buildJobDetails(jobClass, info);
@@ -16,7 +25,7 @@ public class JobSchedulerService {
         try{
             scheduler.scheduleJob(jobDetail, trigger);
         }catch (SchedulerException err){
-
+            log.debug(err.getMessage(), err);
         }
     }
 
@@ -25,7 +34,7 @@ public class JobSchedulerService {
         try{
             scheduler.start();
         }catch (SchedulerException err){
-
+            log.debug(err.getMessage(), err);
         }
     }
 
@@ -33,8 +42,8 @@ public class JobSchedulerService {
     public void closeScheduler() {
         try{
             scheduler.shutdown();
-        }catch (SchedulerException e){
-
+        }catch (SchedulerException err){
+            log.debug(err.getMessage(), err);
         }
     }
 }

@@ -18,6 +18,9 @@ public class Student {
     private String id;
 
     @NotNull
+    private String email;
+
+    @NotNull
     private String firstName;
 
     @NotNull
@@ -29,7 +32,6 @@ public class Student {
     @NotNull
     private String matricNumber;
 
-    @NotNull
     private LocalDate dateOfBirth;
 
     @NotNull

@@ -12,6 +12,7 @@ import app.seven.flexisafses.services.department.DepartmentService;
 import app.seven.flexisafses.services.student.StudentService;
 import app.seven.flexisafses.util.response.SuccessResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -56,6 +57,8 @@ public class StudentResources {
             @RequestParam(required = false) LocalDate endDate
             ) throws NotFoundException, BadRequestException {
 
+
+
         Department dept = null;
         if(department != null){
             Optional<Department> result = departmentService.getDepartmentByName(department);
@@ -95,6 +98,7 @@ public class StudentResources {
     public ResponseEntity<SuccessResponse> createStudent(
             @RequestBody StudentRequestDto request, Principal principal) throws BadRequestException, NotFoundException {
 
+
         Optional<Department> departmentResult = departmentService.getDepartmentByName(request.department);
 
         if(departmentResult.isEmpty()){
@@ -110,6 +114,7 @@ public class StudentResources {
         }
 
         Student usr = Student.builder()
+                .email(request.email)
                 .firstName(request.firstName)
                 .lastName(request.lastName)
                 .otherName(request.otherName)
@@ -134,6 +139,7 @@ public class StudentResources {
 
         Student student = studentService.getStudent(studentId);
 
+        if(request.email != null) student.setFirstName(request.email);
         if(request.firstName != null) student.setFirstName(request.firstName);
         if(request.lastName != null ) student.setLastName(request.lastName);
         if(request.otherName != null ) student.setOtherName(request.otherName);

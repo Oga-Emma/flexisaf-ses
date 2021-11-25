@@ -90,6 +90,7 @@ class StudentResourcesTest {
                 .build();
 
         studentRequest = new StudentRequestDto(
+                "seven@mail.com",
                 "Seven",
                 "Apps",
                 "Eight",
@@ -100,6 +101,7 @@ class StudentResourcesTest {
 
         student = Student.builder()
                 .id(UUID.randomUUID().toString())
+                .email(studentRequest.email)
                 .firstName(studentRequest.firstName)
                 .otherName(studentRequest.lastName)
                 .lastName(studentRequest.lastName)
@@ -146,7 +148,7 @@ class StudentResourcesTest {
                 .content(objectMapper.writeValueAsString(studentRequest));
 
         mockMvc.perform(request).andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
@@ -164,7 +166,7 @@ class StudentResourcesTest {
                 .content(objectMapper.writeValueAsString(studentRequest));
 
         mockMvc.perform(request).andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
@@ -178,6 +180,6 @@ class StudentResourcesTest {
                 .content(objectMapper.writeValueAsString(studentRequest));
 
         mockMvc.perform(request).andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 }

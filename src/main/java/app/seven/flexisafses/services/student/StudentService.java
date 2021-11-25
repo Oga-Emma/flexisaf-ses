@@ -23,4 +23,6 @@ public interface StudentService {
     Long count();
 
     Student getStudent(String studentId) throws NotFoundException;
+
+    List<Student> getDueBirthdays(LocalDate localDate);
 }

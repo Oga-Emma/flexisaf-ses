@@ -9,20 +9,22 @@ import app.seven.flexisafses.models.pojo.Student;
 import app.seven.flexisafses.repositories.StudentRepo;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.support.PageableExecutionUtils;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -118,5 +120,10 @@ public class StudentServicePostgresImpl implements StudentService{
         }
 
         return result.get();
+    }
+
+    @Override
+    public List<Student> getDueBirthdays(LocalDate localDate) {
+        return studentRepo.findByBirthday(localDate.getMonthValue(), localDate.getDayOfMonth() - 1);
     }
 }

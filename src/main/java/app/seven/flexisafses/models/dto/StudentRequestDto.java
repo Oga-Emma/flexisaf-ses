@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentRequestDto {
+    public String email;
     public String firstName;
     public String lastName;
     public String otherName;
