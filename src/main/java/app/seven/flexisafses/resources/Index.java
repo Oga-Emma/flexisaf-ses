@@ -1,4 +1,4 @@
-package app.seven.flexisafses.view;
+package app.seven.flexisafses.resources;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/")
 @RestController
-public class Landing {
+public class Index {
 
     @GetMapping
     public ResponseEntity<String> landing(){
