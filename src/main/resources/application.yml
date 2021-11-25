@@ -22,6 +22,8 @@ spring:
   mongodb:
     embedded:
       version: 3.2.0
+  profiles:
+    active: ${env.ACTIVE_PROFILE}
 
   jpa:
     hibernate:
