@@ -41,11 +41,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-
-        log.debug("Authentication : " +  request.getParameterMap());
-        log.debug("Authentication : " + username);
-        log.debug("Authentication  : " + password);
-
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
@@ -62,17 +57,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-
-        log.debug("Successful Authentication");
-        log.debug(
-                authResult.toString());
-        log.debug("Successful Authentication 1");
-//
-//        if(!authResult.isAuthenticated()){
-//            throw new BadRequestException("Invalid username or password");
-//        }
         AppUser user = (AppUser) authResult.getPrincipal();
-
 
 
         Map<String, String> tokens = new HashMap<>();

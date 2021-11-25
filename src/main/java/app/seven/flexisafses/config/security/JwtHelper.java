@@ -1,5 +1,6 @@
 package app.seven.flexisafses.config.security;
 
+import app.seven.flexisafses.models.exception.BadRequestException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;

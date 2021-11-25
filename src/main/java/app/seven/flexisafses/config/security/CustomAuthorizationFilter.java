@@ -1,6 +1,7 @@
 package app.seven.flexisafses.config.security;
 
 import app.seven.flexisafses.models.exception.BadRequestException;
+import app.seven.flexisafses.util.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -45,29 +46,38 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                   try{
                       String token = authorization.substring(getBearer_().length());
                       if(jwtHelper.verifyToken(token)){
-                          jwtHelper.getUsername(token);
+                          String username = jwtHelper.getUsername(token);
 
                           Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                           stream(jwtHelper.getRoles(token)).forEach(
                                   role ->  authorities.add(new SimpleGrantedAuthority(role))
                           );
+
                           UsernamePasswordAuthenticationToken authenticationToken =
-                                  new UsernamePasswordAuthenticationToken(jwtHelper.getUsername(token), null, authorities );
+                                  new UsernamePasswordAuthenticationToken(username, null, authorities );
 
                           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                           filterChain.doFilter(request, response);
+                      }else{
+                          throw new BadRequestException("Invalid or expired token");
                       }
                   }catch (Exception exception){
-                      response.setHeader("error", exception.getMessage());
+                      log.debug("Here => " + request.getServletPath());
+//                      response.setHeader("error", exception.getMessage());
+//
+//                      Map<String, String> error = new HashMap<>();
+//                      error.put("message", exception.getMessage());
+//
+//                      response.setContentType(APPLICATION_JSON_VALUE);
+//                      new ObjectMapper().writeValue(response.getOutputStream(), error);
 
-                      Map<String, String> error = new HashMap<>();
-                      error.put("message", exception.getMessage());
+                      response.setContentType("application/json");
+                      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-                      response.setContentType(APPLICATION_JSON_VALUE);
-                      new ObjectMapper().writeValue(response.getOutputStream(), error);
-
+                      response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse("Invalid or expired token")));
                   }
               }else{
+                  log.debug("Here => " + request.getServletPath());
                   throw new BadRequestException("Invalid or expired token");
               }
         }

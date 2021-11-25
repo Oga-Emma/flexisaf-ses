@@ -6,14 +6,16 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @EqualsAndHashCode
 @Builder @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Document
-public class Student {
+public class Student implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     private String id;
 
