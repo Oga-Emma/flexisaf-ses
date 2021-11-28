@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableConfigurationProperties
 @EnableMongoRepositories
-@EnableMongoAuditing
 @EnableAsync
 @SpringBootApplication
 public class FlexisafSesApplication {

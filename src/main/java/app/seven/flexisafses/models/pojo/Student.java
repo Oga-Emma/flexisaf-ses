@@ -1,5 +1,6 @@
 package app.seven.flexisafses.models.pojo;
 
+import app.seven.flexisafses.util.AuditMetaData;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @Builder @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Document
-public class Student implements Serializable {
+public class Student extends AuditMetaData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

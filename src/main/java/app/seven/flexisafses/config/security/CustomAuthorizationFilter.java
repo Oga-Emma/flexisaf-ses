@@ -37,7 +37,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        log.debug("URL => " + request.getServletPath());
         if(request.getServletPath().equals("/login") || request.getMethod().equals("OPTIONS")){
             filterChain.doFilter(request, response);
         }else{
@@ -62,14 +61,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                           throw new BadRequestException("Invalid or expired token");
                       }
                   }catch (Exception exception){
-                      log.debug("Here => " + request.getServletPath());
-//                      response.setHeader("error", exception.getMessage());
-//
-//                      Map<String, String> error = new HashMap<>();
-//                      error.put("message", exception.getMessage());
-//
-//                      response.setContentType(APPLICATION_JSON_VALUE);
-//                      new ObjectMapper().writeValue(response.getOutputStream(), error);
 
                       response.setContentType("application/json");
                       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -77,7 +68,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                       response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse("Invalid or expired token")));
                   }
               }else{
-                  log.debug("Here => " + request.getServletPath());
                   throw new BadRequestException("Invalid or expired token");
               }
         }

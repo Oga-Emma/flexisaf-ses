@@ -1,5 +1,6 @@
 package app.seven.flexisafses.models.pojo;
 
+import app.seven.flexisafses.util.AuditMetaData;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mongodb.lang.NonNull;
 import lombok.*;
@@ -14,12 +15,13 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@EqualsAndHashCode(callSuper = false)
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "user")
-public class AppUser  implements UserDetails {
+public class AppUser  extends AuditMetaData implements UserDetails {
 
     public AppUser(String username, String password, boolean suspended, String role) {
         this.username = username;
